@@ -49,7 +49,7 @@ label_mapping = {
 # %%
 # Load custom override of centroids
 override = pd.read_json(
-    os.path.join(file_dir, "country-centroids-override.json")
+    os.path.join(file_dir, "text-location-override.json")
 ).set_index("name")
 override
 
@@ -58,6 +58,8 @@ override
 centroids = tradle_countries.copy()
 centroids = centroids.combine_first(override)
 centroids.update(override)
+centroids["text_latitude"].fillna(centroids["latitude"], inplace=True)
+centroids["text_longitude"].fillna(centroids["longitude"], inplace=True)
 centroids
 
 # %%
@@ -69,12 +71,12 @@ texts = []
 initial_text_positions = []
 
 for name, data in centroids.iterrows():
-    lat = float(data["latitude"])
-    lon = float(data["longitude"])
+    text_lat = float(data["text_latitude"])
+    text_lon = float(data["text_longitude"])
     country_label = label_mapping.get(name, name)
     text = plt.text(
-        lon,
-        lat,
+        text_lon,
+        text_lat,
         country_label,
         fontsize=8,
         ha="center",
@@ -83,7 +85,15 @@ for name, data in centroids.iterrows():
     )
     texts.append(text)
     initial_text_positions.append((text.get_position()))
-    plt.scatter(lon, lat, color=(1, 0, 0, 0.5), s=5)
+
+    lat = float(data["latitude"])
+    lon = float(data["longitude"])
+    plt.scatter(
+        lon,
+        lat,
+        color=(1, 0, 0, 0.5),
+        s=5,
+    )
 
 
 # Adjust text positions to avoid overlap
