@@ -64,7 +64,10 @@ centroids
 # %%
 # Plot map with labels
 fig, ax = plt.subplots(figsize=(60, 30))
-gdf.plot(ax=ax, color="lightblue", edgecolor=(0, 0, 0, 0.2))
+gdf.plot(ax=ax, color="#ffffff", edgecolor=(0, 0, 0, 0.2))
+
+# Set blue background
+fig.patch.set_facecolor("#b3e5fc")
 
 texts = []
 
