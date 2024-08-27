@@ -1,0 +1,34 @@
+[
+  {
+    "latitude": 12.199938,
+    "longitude": -68.271147,
+    "name": "Bonaire"
+  },
+  {
+    "latitude": 12.191696,
+    "longitude": -68.99358,
+    "name": "Curacao"
+  },
+  {
+    "latitude": 17.897638,
+    "longitude": -62.832411,
+    "name": "Saint Barthelemy"
+  },
+  {
+    "latitude": 18.079018,
+    "longitude": -63.052016,
+    "name": "Saint Martin"
+  },
+  {
+    "alpha2": "SD",
+    "alpha3": "SDN",
+    "latitude": 16.691309,
+    "longitude": 30.17174,
+    "name": "Sudan"
+  },
+  {
+    "latitude": 7.046561,
+    "longitude": 30.314515,
+    "name": "South Sudan"
+  }
+]

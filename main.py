@@ -257,7 +257,23 @@ gdf
 
 # %%
 # Load ISO 3166-1 country centroids
-centroids = pd.read_json(os.path.join(file_dir, "iso-country-centroids.json"))
+iso_centroids = pd.read_json(
+    os.path.join(file_dir, "iso-country-centroids.json")
+).set_index("name")
+iso_centroids
+
+# %%
+# Load custom override of centroids
+override = pd.read_json(
+    os.path.join(file_dir, "country-centroids-override.json")
+).set_index("name")
+override
+
+# %%
+# Override the centroids with custom values
+centroids = iso_centroids.copy()
+centroids = centroids.combine_first(override)
+centroids.update(override)
 centroids
 
 # %%
@@ -279,11 +295,10 @@ iso_mapping = {
 mapped_countries = set(
     iso_mapping.get(country, country) for country in tradle_countries
 )
-mapped_countries
 
 # %%
 # Check if all countries were found
-found_countries = set(centroids["name"].unique())
+found_countries = set(centroids.index.unique())
 missing_countries = mapped_countries - found_countries
 if missing_countries:
     print(
@@ -300,6 +315,10 @@ label_mapping = {
     "Antigua and Barbuda": "Antigua",
     "Bosnia and Herzegovina": "Bosnia",
     "Saint Kitts and Nevis": "St. Kitts",
+    "Saint Barthelemy": "St. Barthelemy",
+    "Saint Vincent and the Grenadines": "St. Vincent",
+    "Saint Lucia": "St. Lucia",
+    "Saint Martin": "St. Martin",
 }
 
 # %%
@@ -312,8 +331,10 @@ initial_text_positions = []
 
 for tradle_country in tradle_countries:
     iso_country = iso_mapping.get(tradle_country, tradle_country)
-    row = centroids.loc[centroids["name"] == iso_country]
-    if row.empty:
+    try:
+        row = centroids.loc[iso_country]
+    except KeyError as e:
+        print(f"Could not find {iso_country}")
         continue
     lat = float(row["latitude"])
     lon = float(row["longitude"])
@@ -336,7 +357,7 @@ for tradle_country in tradle_countries:
 adjust_text(texts, ax=ax, only_move={"text": "xy"})
 
 # Re-check positions and add arrows only if moved significantly
-threshold = 3  # Define the significance threshold
+threshold = 2  # Define the significance threshold
 
 
 # Function to calculate Euclidean distance
@@ -348,7 +369,6 @@ for i, text in enumerate(texts):
     current_position = text.get_position()
     initial_position = initial_text_positions[i]
     distance_moved = calculate_distance(initial_position, current_position)
-    print(f"{text.get_text()}: {distance_moved}")
 
     if distance_moved > threshold:
         text.set_ha("center")
