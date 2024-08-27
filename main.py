@@ -99,7 +99,7 @@ adjust_text(
     texts,
     ax=ax,
     only_move={"text": "xy"},
-    min_arrow_len=2,
+    min_arrow_len=0,
     arrowprops=dict(arrowstyle="-", color=(1, 0, 0, 0.4)),
     expand=(1.05, 1.05),
     pull_threshold=5,
