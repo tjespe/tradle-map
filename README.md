@@ -6,5 +6,4 @@ Also includes the centroids used by Tradle to calculate distances between countr
 
 ### Latest built map
 
-![Latest map](./build/map.svg)
-[Open in new tab](https://raw.githubusercontent.com/tjespe/tradle-map/master/build/map.svg)
+![Latest map](https://raw.githubusercontent.com/tjespe/tradle-map/master/build/map.svg)
