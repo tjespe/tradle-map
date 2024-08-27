@@ -319,6 +319,7 @@ label_mapping = {
     "Saint Lucia": "St. Lucia",
     "Saint Martin": "St. Martin",
     "British Virgin Islands": "Virgin Islands",
+    "Democratic Republic of the Congo": "Congo [DRC]",
 }
 
 # %%
