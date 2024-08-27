@@ -242,14 +242,13 @@ tradle_countries = [
 
 # %%
 # Load world map
-shapefile_dir = "110m_cultural"
+shapefile_dir = "50m_cultural"
 file_dir = os.path.dirname(os.path.realpath(__file__))
 shapefile_dir = os.path.join(file_dir, shapefile_dir)
 shapefile_paths = [
-    "ne_110m_admin_0_countries.shp",
-    "ne_110m_admin_0_tiny_countries.shp",
-    "ne_110m_admin_0_pacific_groupings.shp",
-    "ne_110m_admin_0_sovereignty.shp",
+    "ne_50m_admin_0_countries.shp",
+    "ne_50m_admin_0_pacific_groupings.shp",
+    "ne_50m_admin_0_sovereignty.shp",
 ]
 gdfs = [gpd.read_file(os.path.join(shapefile_dir, path)) for path in shapefile_paths]
 gdf = gpd.GeoDataFrame(pd.concat(gdfs, ignore_index=True))
@@ -319,6 +318,7 @@ label_mapping = {
     "Saint Vincent and the Grenadines": "St. Vincent",
     "Saint Lucia": "St. Lucia",
     "Saint Martin": "St. Martin",
+    "British Virgin Islands": "Virgin Islands",
 }
 
 # %%
