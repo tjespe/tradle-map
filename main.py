@@ -40,7 +40,6 @@ tradle_countries = [
     "Bosnia and Herzegovina",
     "Botswana",
     "Brazil",
-    "British Indian Ocean Territory",
     "British Virgin Islands",
     "Brunei",
     "Bulgaria",
