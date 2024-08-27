@@ -2,7 +2,6 @@
 import os
 import matplotlib.pyplot as plt
 import geopandas as gpd
-import numpy as np
 import pandas as pd
 from adjustText import adjust_text
 import matplotlib.patheffects as pe
@@ -68,23 +67,22 @@ fig, ax = plt.subplots(figsize=(60, 30))
 gdf.plot(ax=ax, color="lightblue", edgecolor=(0, 0, 0, 0.2))
 
 texts = []
-initial_text_positions = []
 
 for name, data in centroids.iterrows():
     text_lat = float(data["text_latitude"])
     text_lon = float(data["text_longitude"])
     country_label = label_mapping.get(name, name)
-    text = plt.text(
-        text_lon,
-        text_lat,
-        country_label,
-        fontsize=8,
-        ha="center",
-        va="center",
-        path_effects=[pe.withStroke(linewidth=2, foreground=(1, 1, 1, 0.4))],
+    texts.append(
+        plt.text(
+            text_lon,
+            text_lat,
+            country_label,
+            fontsize=8,
+            ha="center",
+            va="center",
+            path_effects=[pe.withStroke(linewidth=2, foreground=(1, 1, 1, 0.6))],
+        )
     )
-    texts.append(text)
-    initial_text_positions.append((text.get_position()))
 
     lat = float(data["latitude"])
     lon = float(data["longitude"])
@@ -97,31 +95,16 @@ for name, data in centroids.iterrows():
 
 
 # Adjust text positions to avoid overlap
-adjust_text(texts, ax=ax, only_move={"text": "xy"})
+adjust_text(
+    texts,
+    ax=ax,
+    only_move={"text": "xy"},
+    min_arrow_len=2,
+    arrowprops=dict(arrowstyle="-", color=(1, 0, 0, 0.4)),
+    expand=(1.05, 1.05),
+    pull_threshold=5,
+)
 
-# Re-check positions and add arrows only if moved significantly
-threshold = 2  # Define the significance threshold
-
-
-# Function to calculate Euclidean distance
-def calculate_distance(pos1, pos2):
-    return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
-
-
-for i, text in enumerate(texts):
-    current_position = text.get_position()
-    initial_position = initial_text_positions[i]
-    distance_moved = calculate_distance(initial_position, current_position)
-
-    if distance_moved > threshold:
-        text.set_ha("center")
-        text.set_va("center")
-        ax.annotate(
-            "",
-            xy=initial_position,
-            xytext=current_position,
-            arrowprops=dict(arrowstyle="-", color=(1, 0, 0, 0.5)),
-        )
 
 plt.title("Map with Labeled Countries")
 plt.tight_layout(pad=0)
