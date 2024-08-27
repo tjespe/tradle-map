@@ -106,8 +106,11 @@ adjust_text(
 )
 
 
-plt.title("Map with Labeled Countries")
-plt.tight_layout(pad=0)
+plt.tight_layout()
+ax.set_xlim(-180, 180)
+ax.set_ylim(-90, 90)
+ax.axis("off")
+plt.gca().set_position((0, 0, 1, 1))
 plt.savefig("build/map.svg")
 plt.savefig("build/map.png")
 plt.show()
