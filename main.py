@@ -74,21 +74,20 @@ texts = []
 for name, data in centroids.iterrows():
     text_lat = float(data["text_latitude"])
     text_lon = float(data["text_longitude"])
-    country_label = label_mapping.get(name, name)
-    texts.append(
-        plt.text(
-            text_lon,
-            text_lat,
-            country_label,
-            fontsize=8,
-            ha="center",
-            va="center",
-            path_effects=[pe.withStroke(linewidth=2, foreground=(1, 1, 1, 0.6))],
-        )
-    )
-
     lat = float(data["latitude"])
     lon = float(data["longitude"])
+    country_label = label_mapping.get(name, name)
+    text = plt.text(
+        text_lon,
+        text_lat,
+        country_label,
+        fontsize=8,
+        ha="center",
+        va="center",
+        path_effects=[pe.withStroke(linewidth=2, foreground=(1, 1, 1, 0.6))],
+    )
+    if lat == text_lat and lon == text_lon:
+        texts.append(text)
     plt.scatter(
         lon,
         lat,
@@ -115,7 +114,7 @@ ax.set_ylim(-90, 90)
 ax.axis("off")
 plt.gca().set_position((0, 0, 1, 1))
 plt.savefig("build/map.svg")
-plt.savefig("build/map.png")
+plt.savefig("build/map.png", dpi=300)
 plt.show()
 os.system("open build/map.svg")
 
