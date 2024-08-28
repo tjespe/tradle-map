@@ -8,6 +8,7 @@ import matplotlib.patheffects as pe
 
 
 file_dir = os.path.dirname(os.path.realpath(__file__))
+os.chdir(file_dir)
 
 
 # %%
@@ -114,8 +115,10 @@ ax.set_ylim(-90, 90)
 ax.axis("off")
 plt.gca().set_position((0, 0, 1, 1))
 plt.savefig("build/map.svg")
+plt.savefig("build/map.pdf")
 plt.savefig("build/map.png", dpi=300)
 plt.show()
 os.system("open build/map.svg")
+os.system("pdfposter -mA4 -pA0 build/map.pdf build/map-for-print.pdf")
 
 # %%
